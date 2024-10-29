@@ -1,0 +1,91 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="col-11 col-md-9">
+    <div class="card card-custom">
+      <div class="card-body">
+        <div class="row justify-content-center justify-content-md-start ms-md-2">
+          <button (click)="changeState('createProject')" class="col-auto me-1 me-md-2 btn btn-sm change-button" [disabled]="showJoinProject">Create project</button>
+          <button (click)="changeState('showJoinProject')" class="col-auto ms-1 me-md-4 btn btn-sm change-button" [disabled]="showCreateProject">Join project</button>
+        </div>
+        <form *ngIf="showCreateProject" [formGroup]="createForm" class="row d-block mt-3 ms-md-1 text-center text-md-start">
+          <div>
+            <h6 class="form-label fw-bold small">Name</h6>
+            <input class="form-control-sm" type="text" formControlName="name" maxlength="45">
+            <div *ngIf="createForm.get('name')?.invalid && createForm.get('name')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="createForm.get('name')?.errors?.['required']" class="small">Name can't be empty.</h6>
+            </div>
+          </div>
+          <div class="mt-2">
+            <h6 class="form-label fw-bold small">Description</h6>
+            <input class="form-control-sm" type="text" formControlName="description" maxlength="200">
+            <div *ngIf="createForm.get('description')?.invalid && createForm.get('description')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="createForm.get('description')?.errors?.['required']" class="small">Description can't be empty.</h6>
+            </div>
+          </div>
+          <div class="mt-2">
+            <h6 class="form-label fw-bold small">Password</h6>
+            <input class="form-control-sm" type="password" formControlName="password" maxlength="200">
+            <div *ngIf="createForm.get('password')?.invalid && createForm.get('password')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="createForm.get('password')?.errors?.['required']" class="small">Password can't be empty.</h6>
+            </div>
+          </div>
+          <div class="mt-2">
+            <h6 class="form-label fw-bold small">Start date:</h6>
+            <input class="form-control-sm" type="date" formControlName="startDate">
+            <div *ngIf="createForm.get('startDate')?.invalid && createForm.get('startDate')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="createForm.get('startDate')?.errors?.['required']" class="small">Start date can't be empty.</h6>
+            </div>
+          </div>
+          <div class="mt-2">
+            <h6 class="form-label fw-bold small">End date:</h6>
+            <input class="form-control-sm" type="date" formControlName="endDate">
+            <div *ngIf="createForm.get('endDate')?.invalid && createForm.get('endDate')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="createForm.get('endDate')?.errors?.['required']" class="small">End date can't be empty.</h6>
+            </div>
+          </div>
+            <div class="mt-3">
+            <button (click)="createProject()" class="btn btn-sm btn-success" [disabled]="createForm.invalid">Create</button>
+          </div>
+        </form>
+        <form *ngIf="showJoinProject" [formGroup]="joinForm" class="row mt-3 ms-md-1 text-center text-md-start">
+          <div class="col-12 mt-2">
+            <h6 class="form-label fw-bold small">Code</h6>
+            <input class="form-control-sm" type="text" formControlName="code">
+            <div *ngIf="joinForm.get('code')?.invalid && joinForm.get('code')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="joinForm.get('code')?.errors?.['required']">Code can't be empty.</h6>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <h6 class="form-label fw-bold small">Password</h6>
+            <input class="form-control-sm" type="password" formControlName="password">
+            <div *ngIf="joinForm.get('password')?.invalid && joinForm.get('password')?.touched" class="mt-1 alert-color">
+              <h6 *ngIf="joinForm.get('password')?.errors?.['required']">Password can't be empty.</h6>
+            </div>
+          </div>
+          <div class="col-12 mt-3">
+            <button (click)="joinProject()" class="btn btn-sm btn-success" [disabled]="joinForm.invalid">Join</button>
+          </div>
+        </form>
+        <div *ngIf="!showJoinProject && !showCreateProject">
+          <div class="row mt-3 mx-2">
+            <h6 class="col-4 col-md-6 text-center details">Name</h6>
+            <h6 class="col-4 col-md-3 text-center details">Role</h6>
+            <h6 class="col-4 col-md-3 text-center details">Status</h6>
+            <hr>
+          </div>
+          <div *ngFor="let projectWithRole of sortedProjectsAndRoles">
+            <div class="row mx-2">
+              <h6 class="col-4 col-md-6 text-center p-1 small text-break text-wrap">
+                <a [ngStyle]="{'color': getColorByStatus(projectWithRole.project.status)}"
+                   [routerLink]="['/project', projectWithRole.project.id]" class="text-decoration-none">
+                  {{projectWithRole.project.name}}</a>
+              </h6>
+              <h6 class="col-4 col-md-3 text-center p-1 small">{{roleToString(projectWithRole.role)}}</h6>
+              <h6 class="col-4 col-md-3 text-center p-1 small">{{statusToString(projectWithRole.project.status)}}</h6>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

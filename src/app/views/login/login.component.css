@@ -1,0 +1,48 @@
+.auth-container {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-custom {
+  background-color: ghostwhite;
+  opacity: 0.9;
+  border-radius: 1rem;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.9);
+}
+
+.custom-text {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  font-size: 2.3rem;
+  font-weight: bold;
+}
+
+label {
+  color: #0D19A3;
+}
+
+input, input:focus {
+  color: #0D19A3;
+  background-color: #F4E4C1;
+  border: solid 0.1rem #0D19A3;
+  border-radius: 0.5rem;
+}
+
+a {
+  color: #080F5B;
+  text-decoration: none;
+}
+
+.ng-invalid.ng-touched {
+  border-color: #CF352E;
+}
+
+.alert-color {
+  color: #CF352E;
+}
+
+.ng-valid.ng-touched {
+  border-color: #0D19A3;
+}

@@ -1,0 +1,129 @@
+<img class="img-custom d-block mt-4 mx-auto"
+     [ngSrc]="user!.profilePicture || 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp'"
+     [height]="120"
+     [width]="120"
+     alt="Profile picture"
+     priority>
+<div class="container mt-4 d-flex justify-content-center align-items-center">
+  <div class="col-md-8">
+    <div class="card mb-3 border-2 card-custom">
+      <div class="card-body">
+        <div class="row mt-2">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">Username</h6>
+          </div>
+          <div class="col-sm-5 text-center text-sm-start small">
+            {{user.username}}
+          </div>
+          <div *ngIf="!changeUsername" class="col-sm-4 p-2 p-sm-0 text-center">
+            <button (click)="activateState('Username')" class="btn btn-sm change-button">Change</button>
+          </div>
+        </div>
+        <div *ngIf="changeUsername" class="row mt-4">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">New username</h6>
+          </div>
+          <form class="col-sm-5 text-secondary text-center text-sm-start">
+            <input type="text" class="form-control-sm mt-2 mt-sm-0" [formControl]="newUsername" maxlength="45">
+            <div *ngIf="newUsername.invalid && newUsername.touched" class="m-2 alert-color">
+              <h6 *ngIf="newUsername.errors?.['required']" class="small">Username can't be empty.</h6>
+              <h6 *ngIf="newUsername.errors?.['minlength']" class="small">Username must have at least 2 characters.</h6>
+              <h6 *ngIf="newUsername.errors?.['pattern'] && !newUsername.errors?.['minlength']" class="small">Username must contain only letters and numbers.</h6>
+            </div>
+          </form>
+          <div class="col-sm-4 p-2 p-sm-0 text-center">
+            <button (click)="changeUserInfo('Username')" class="btn btn-sm btn-success" [disabled]="newUsername.invalid">Ok</button>
+            <button (click)="activateState('Username')" class="btn ms-2 btn-sm btn-danger">Cancel</button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">E-mail</h6>
+          </div>
+          <div class="col-sm-5 text-center text-sm-start small">
+            {{user.email}}
+          </div>
+          <div *ngIf="!changeEmail" class="col-sm-4 p-2 p-sm-0 text-center">
+            <button (click)="activateState('Email')" class="btn btn-sm change-button">Change</button>
+          </div>
+        </div>
+        <div *ngIf="changeEmail" class="row mt-4">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">New email</h6>
+          </div>
+          <form class="col-sm-5 text-secondary text-center text-sm-start">
+            <input type="text" class="form-control-sm mt-2 mt-sm-0" [formControl]="newEmail" maxlength="45">
+            <div *ngIf="newEmail.invalid && newEmail.touched" class="m-2 alert-color">
+              <h6 *ngIf="newEmail.errors?.['required']" class="small">E-mail can't be empty.</h6>
+              <h6 *ngIf="newEmail.errors?.['pattern']" class="small">E-mail must have valid format.</h6>
+            </div>
+          </form>
+          <div class="col-sm-4 p-2 p-sm-0 text-center">
+            <button (click)="changeUserInfo('Email')" class="btn btn-sm btn-success" [disabled]="newEmail.invalid">Ok</button>
+            <button (click)="activateState('Email')" class="btn ms-2 btn-sm btn-danger">Cancel</button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">Name</h6>
+          </div>
+          <div class="col-sm-9 text-center text-sm-start small">
+            {{user.name}}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">Surname</h6>
+          </div>
+          <div class="col-sm-9 text-center text-sm-start small">
+            {{user.surname}}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">Birthday</h6>
+          </div>
+          <div class="col-sm-9 text-center text-sm-start small">
+            {{user.birthday | date:'mediumDate'}}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">Join Date</h6>
+          </div>
+          <div class="col-sm-9 text-center text-sm-start small">
+            {{user.joinDate | date:'mediumDate'}}
+          </div>
+        </div>
+        <hr>
+        <div *ngIf="!changePassword" class="row mb-2">
+          <div class="col d-flex justify-content-center justify-content-sm-start">
+            <button (click)="activateState('Password')" class="btn change-button btn-sm">Change Password</button>
+          </div>
+        </div>
+        <div *ngIf="changePassword" class="row mt-4">
+          <div class="col-sm-3 text-center text-sm-start">
+            <h6 class="mb-0 details">New password</h6>
+          </div>
+          <form class="col-sm-5 text-secondary text-center text-sm-start">
+            <input type="password" class="form-control-sm mt-2 mt-sm-0" [formControl]="newPassword" maxlength="16">
+            <div *ngIf="newPassword.invalid && newPassword.touched" class="m-2 alert-color">
+              <h6 *ngIf="newPassword.errors?.['required']" class="small">Password can't be empty.</h6>
+              <h6 *ngIf="newPassword.errors?.['minlength']" class="small">Password must have at least 8 characters.</h6>
+              <h6 *ngIf="newPassword.errors?.['pattern'] && !newPassword.errors?.['minlength']" class="small">{{invalidMsgPwd()}}</h6>
+            </div>
+          </form>
+          <div class="col-sm-4 p-2 p-sm-0 text-center">
+            <button (click)="changeUserInfo('Password')" class="btn btn-sm btn-success" [disabled]="newPassword.invalid">Ok</button>
+            <button (click)="activateState('Password')" class="btn ms-2 btn-sm btn-danger">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

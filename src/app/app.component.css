@@ -1,0 +1,27 @@
+.bg-custom {
+  opacity: 0.8;
+}
+
+.navbar-custom {
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.9);
+  padding-left: 1rem;
+}
+
+.dropdown-menu-custom {
+  margin: 1rem 1rem 1rem 0;
+}
+
+.bg-custom, .dropdown-menu-custom {
+  background-color: ghostwhite;
+  border-radius: 1rem;
+}
+
+.navbar a, .dropdown-menu a {
+  color: #0D19A3;
+}
+
+.navbar a:hover, .dropdown-menu a:hover {
+  color: #E4C580;
+}
+
+

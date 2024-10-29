@@ -1,0 +1,80 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 90vh">
+  <div class="col-11 col-sm-12 col-md-12 col-lg-9 col-xl-8 col-xxl-7">
+    <div class="card card-custom">
+      <div class="card-body p-4">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+          <div class="row">
+            <div class="col-12 mb-4 text-center">
+              <h1>Registration</h1>
+            </div>
+            <div class="col-6 col-sm-6">
+              <label class="form-label" for="username">Username</label>
+              <input class="form-control" type="text" id="username" ngModel name="username" #username='ngModel'
+                     pattern="^[a-zA-Z0-9]+$" minlength="2" maxlength="45" required>
+              <div *ngIf="username.invalid && username.touched" class="m-2 alert-color">
+                <h6 *ngIf="username.errors?.['required']" class="small">Username can't be empty.</h6>
+                <h6 *ngIf="username.errors?.['minlength']" class="small">Username must have at least 2 characters.</h6>
+                <h6 *ngIf="username.errors?.['pattern'] && !username.errors?.['minlength']" class="small">Username must contain only letters and numbers.</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6">
+              <label class="form-label" for="password">Password</label>
+              <input class="form-control" type="password" id="password" ngModel name="password" #password='ngModel'
+                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,16}$" minlength="8" maxlength="16" required>
+              <div *ngIf="password.invalid && password.touched" class="m-2 alert-color">
+                <h6 *ngIf="password.errors?.['required']" class="small">Password can't be empty.</h6>
+                <h6 *ngIf="password.errors?.['minlength']" class="small">Password must have at least 8 characters.</h6>
+                <h6 *ngIf="password.errors?.['pattern'] && !password.errors?.['minlength']" class="small">{{invalidMsgPwd(registerForm)}}</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 mt-2">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-control" type="text" id="name" ngModel name="name" #name='ngModel'
+                     pattern="^[a-zA-Z]+$" minlength="2" maxlength="45" required>
+              <div *ngIf="name.invalid && name.touched" class="m-2 alert-color">
+                <h6 *ngIf="name.errors?.['required']" class="small">Name can't be empty.</h6>
+                <h6 *ngIf="name.errors?.['minlength']" class="small">Name must have at least 2 characters.</h6>
+                <h6 *ngIf="name.errors?.['pattern'] && !name.errors?.['minlength']" class="small">Name must contain only letters.</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 mt-2">
+              <label class="form-label" for="name">Surname</label>
+              <input class="form-control" type="text" id="surname" ngModel name="surname" #surname='ngModel'
+                     pattern="^[a-zA-Z]+$" minlength="2" maxlength="45" required>
+              <div *ngIf="surname.invalid && surname.touched" class="m-2 alert-color">
+                <h6 *ngIf="surname.errors?.['required']" class="small">Surname can't be empty.</h6>
+                <h6 *ngIf="surname.errors?.['minlength']" class="small">Surname must have at least 2 characters.</h6>
+                <h6 *ngIf="surname.errors?.['pattern'] && !surname.errors?.['minlength']" class="small">Surname must contain only letters.</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 mt-2">
+              <label class="form-label" for="email">E-mail</label>
+              <input class="form-control" type="text" id="email" ngModel name="email" #email='ngModel'
+                     pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" maxlength="45" required>
+              <div *ngIf="email.invalid && email.touched" class="m-2 alert-color">
+                <h6 *ngIf="email.errors?.['required']" class="small">E-mail can't be empty.</h6>
+                <h6 *ngIf="email.errors?.['pattern']" class="small">E-mail must have valid format.</h6>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3 mt-2">
+              <label class="form-label" for="birthday">Birthday</label>
+              <input class="form-control" type="date" id="birthday" ngModel name="birthday" #date='ngModel' required>
+              <div *ngIf="!invalidDate(registerForm) && date.touched" class="m-2 alert-color">
+                <h6 *ngIf="date.errors?.['required']" class="small">Birthday can't be empty.</h6>
+                <h6 *ngIf="!invalidDate(registerForm) && !date.errors?.['required']" class="small">Birthday can't be future date.</h6>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3 mt-2">
+              <label class="form-label" for="profilePicture">Profile Picture URL</label>
+              <input class="form-control" type="text" id="profilePicture" ngModel name="profilePicture"
+                     maxlength="500">
+            </div>
+          </div>
+          <div class="row mt-5 justify-content-center">
+            <button type="submit" class="col-4 btn btn-success" [disabled]="registerForm.invalid || !invalidDate(registerForm)">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

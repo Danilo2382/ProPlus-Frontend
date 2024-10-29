@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-auto align-self-center mb-1">
+    <button (click)="goBack()" class="btn btn-sm btn-success"><</button>
+  </div>
+  <h2 class="col-auto align-self-center details">Tasks</h2>
+  <div class="col-auto align-self-center mb-1">
+    <button (click)="activateChangeTask()" class="btn btn-sm btn-success">+</button>
+  </div>
+</div>
+<form *ngIf="showCreateTask" #createForm="ngForm" class="row mt-3 ms-md-1 text-center text-md-start">
+  <div class="col-12">
+    <label class="form-label" for="name">Name</label><br>
+    <input class="form-control-sm" type="text" id="name" ngModel name="name" #name="ngModel" required>
+    <div *ngIf="name.invalid && name.touched">
+      <h6 class="mt-2 alert-color small">Name can't be empty!</h6>
+    </div>
+  </div>
+  <div class="col-12 mt-2">
+    <label class="form-label" for="description">Description</label><br>
+    <input class="form-control-sm" type="text" id="description" ngModel name="description" #description="ngModel" required>
+    <div *ngIf="description.invalid && description.touched">
+      <h6 class="mt-2 alert-color small">Description can't be empty!</h6>
+    </div>
+  </div>
+  <div class="col-12 mt-2">
+    <label class="form-label" for="member">Member</label><br>
+    <select class="form-select-sm" id="member" ngModel name="member" #member="ngModel" required>
+      <option *ngFor="let member of members">{{member}}</option>
+    </select>
+    <div *ngIf="member.invalid && member.touched">
+      <h6 class="mt-2 alert-color small">Member can't be empty!</h6>
+    </div>
+  </div>
+  <div class="col-12 mt-3">
+    <button (click)="createTask(createForm)" class="btn btn-sm btn-success" [disabled]="createForm.invalid">Create</button>
+  </div>
+</form>
+<hr *ngIf="showCreateTask">
+<div class="row mt-3">
+  <h6 class="col-3 col-sm-4 text-center details">Name</h6>
+  <h6 class="col-3 col-sm-4 text-center details">User</h6>
+  <h6 class="col-3 col-sm-2 text-center details">Status</h6>
+  <hr>
+</div>
+<div *ngFor="let task of tasksWithUsernames.tasks; let i = index" class="row">
+  <h6 (click)="showDescription(task)" class="col-3 col-sm-4 text-center align-self-center small">{{task.name}}</h6>
+  <h6 class="col-3 col-sm-4 text-center align-self-center small">{{tasksWithUsernames.usernames![i]}}</h6>
+  <h6 class="col-3 col-sm-2 text-center align-self-center small">{{statusToString(task.status)}}</h6>
+  <div class="col-3 col-sm-2 text-center">
+    <button *ngIf="localStorage.getItem('username') === tasksWithUsernames.usernames![i]
+                  && task.status != 1"
+            (click)="finishTask(task.id)"
+            class="mb-2 btn btn-sm btn-success">Finish</button>
+  </div>
+  <hr>
+</div>

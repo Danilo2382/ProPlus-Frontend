@@ -1,0 +1,30 @@
+<div class="row justify-content-center">
+  <div class="col-auto align-self-center mb-1">
+    <button (click)="goBack()" class="btn btn-sm btn-success"><</button>
+  </div>
+  <h2 class="col-auto align-self-center details">Members</h2>
+  <div class="col-auto align-self-center mb-1">
+    <button (click)="goForward()" class="btn btn-sm btn-success">></button>
+  </div>
+</div>
+<div class="row mt-3">
+  <h6 class="col-4 col-sm-3 col-lg-4 text-center details">Username</h6>
+  <h6 class="col-3 col-sm-3 col-lg-4 d-none d-sm-grid text-center details">Role</h6>
+  <hr>
+</div>
+<div *ngFor="let username of usernamesWithRoles.usernames; let i = index" class="row">
+  <h6 [ngClass]="{
+      'admin': usernamesWithRoles.roles![i] === 2,
+      'co-admin': usernamesWithRoles.roles![i] === 1,
+      'member': usernamesWithRoles.roles![i] === 0 }"
+      class="col-4 col-sm-3 col-lg-4 text-center align-self-center small">{{username}}</h6>
+  <h6 class="col-6 col-sm-3 col-lg-4 d-none d-sm-grid text-center align-self-center small">{{roleToString(usernamesWithRoles.roles![i])}}</h6>
+  <form #select='ngForm' *ngIf="i != 0" class="col-8 col-sm-6 col-lg-4 text-center mb-2">
+    <select ngModel name="role" class="form-select-sm">
+      <option value="1">Co-admin</option>
+      <option value="0">Member</option>
+    </select>
+    <button (click)="changeRole(username, select.form.get('role')?.value)" class="btn btn-success btn-sm ms-2 ms-sm-4" [disabled]="!canChange()">Set Role</button>
+  </form>
+  <hr>
+</div>

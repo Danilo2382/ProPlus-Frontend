@@ -1,0 +1,23 @@
+.admin {
+  color: #198754;
+}
+
+.co-admin {
+  color: #FFC107;
+}
+
+.member {
+  color: #4B0082;
+}
+
+.details {
+  color: #080F5B;
+  font-weight: bold;
+}
+
+select, select:focus {
+  color: #0D19A3;
+  background-color: #F4E4C1;
+  border: solid 0.1rem #0D19A3;
+  border-radius: 0.5rem;
+}

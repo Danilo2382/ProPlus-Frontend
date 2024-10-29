@@ -1,0 +1,50 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="col-12 col-md-9">
+    <div class="card card-custom">
+      <div class="card-body">
+        <app-tasks (backEvent)="changeState($event)" *ngIf="showTasks" [id]="project.id"></app-tasks>
+        <app-members (directionEvent)="changeState($event)" *ngIf="showMembers" [id]="project.id"></app-members>
+        <div *ngIf="showDetails">
+          <div class="row justify-content-center">
+            <h4 class="col-auto align-self-center text-wrap text-break details">{{project.name}}</h4>
+            <div class="col-auto align-self-center">
+              <button (click)="changeState('stateMembers')" class="btn btn-sm btn-success">></button>
+            </div>
+          </div>
+          <hr>
+          <div class="row text-center">
+            <h6 class="small details">Description</h6>
+            <h6 class="small text-wrap text-break m-2">{{project.description}}</h6>
+          </div>
+          <hr>
+          <div class="row text-center">
+            <div class="col-12 col-sm-4">
+              <h6 class="small details">Start date</h6>
+              <h6 class="small m-2">{{project.startDate | date: 'mediumDate'}}</h6>
+            </div>
+            <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+              <h6 class="small details">End date</h6>
+              <h6 class="small m-2">{{project.endDate | date: 'mediumDate'}}</h6>
+            </div>
+            <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+              <h6 class="small details">Create date</h6>
+              <h6 class="small m-2">{{project.createDate | date: 'mediumDate'}}</h6>
+            </div>
+          </div>
+          <hr>
+          <div class="row text-center">
+            <div class="col-12 col-sm-4">
+              <h6 class="small details">Status</h6>
+              <h6 class="small m-2">{{statusToString(project.status)}}</h6>
+            </div>
+            <div class="col-12 col-sm-4 mt-3 mt-sm-0">
+              <h6 class="small details">Code</h6>
+              <h6 class="small m-2">{{project.code}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
