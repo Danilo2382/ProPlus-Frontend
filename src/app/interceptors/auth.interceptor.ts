@@ -1,15 +1,13 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import {AppConstants} from "../constants/app.constants";
 
 export function authInterceptor(): HttpInterceptorFn {
   return (req, next) => {
-    if (req.url.includes('/auth/login') || req.url.includes('/auth/register'))
+    if (req.url.includes(AppConstants.LOGIN_API_URL) || req.url.includes(AppConstants.REGISTER_API_URL))
       return next(req);
-    const username = localStorage.getItem('username');
-    const password = localStorage.getItem('password');
-    const basicAuth = 'Basic ' + btoa(`${username}:${password}`);
     const clonedReq = req.clone({
       setHeaders: {
-        Authorization: basicAuth
+        Authorization: <string>sessionStorage.getItem("JWT")
       }
     });
     return next(clonedReq);

@@ -2,9 +2,25 @@
 
 Pro Plus is a project management application developed using Angular for the frontend and Spring Boot for the backend. The Angular application calls the endpoints provided by the Spring Boot application to manage tasks and projects effectively, creating a seamless experience for users. 
 
-## Note
+## Last Update
 
-The current version of the frontend application is not compatible with the latest version of the backend application. I am working on adapting it to be compatible. If you wish to run the application, please use the commit with SHA: `55365b4d4894653c7e10324cdb82b7d1dd17fe3d`.
+- Adapted the application to work with JWT authentication.
+
+- Updated most components to align with the latest version of the backend application.
+
+- Redesigned the project display component for a better visual experience.
+
+- Created a new UI for joining a project.
+
+## Current Work
+
+- Improving the UI/UX for other components.
+
+- Implementing the createProject functionality (currently not functional).
+
+- Adapting remaining parts of the application to work with the latest backend version.
+
+- Optimizing the code for better performance and maintainability.
 
 ## Development server
 

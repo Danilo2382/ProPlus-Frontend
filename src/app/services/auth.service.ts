@@ -1,67 +1,49 @@
 import {Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { catchError, map, of } from "rxjs";
+import {catchError, map, of, tap} from "rxjs";
 import {User} from "../models/user";
+import {AppConstants} from "../constants/app.constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {
-    if (localStorage.getItem('isLoggedIn') === 'true') return;
-    localStorage.setItem('isLoggedIn', 'false');
-  }
+  constructor(private http: HttpClient) {}
 
   register(user: User) {
-    const body = {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      name: user.name,
-      surname: user.surname,
-      birthday: user.birthday,
-      profilePicture: user.profilePicture
-    }
-    return this.http.post<boolean>('/auth/register', body).pipe(
-      map(response => {
-        return {success: response, message: 'Registration successful.'}
-      }), catchError(err => {
-        let message = 'An error occurred during registration.';
-        if (err.status === 409) message = err.error;
-        return of({success: false, message: message});
-      })
+    return this.http.post<{message: string}>(AppConstants.REGISTER_API_URL, user).pipe(
+      map(response => ({
+        success: true,
+        message: response.message
+      })),
+      catchError(err => of({
+        success: false,
+        message: err.error?.message || "Registration failed"
+      }))
     );
   }
 
   login(username: string, password: string) {
-    const body = {
-      username: username,
-      password: password
-    }
-    return this.http.post<boolean>('/auth/login', body).pipe(
-      map(response => {
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
-        localStorage.setItem('isLoggedIn', `${response}`)
-        return {success: response, message: 'Login successful.'};
-      }), catchError(err => {
-        let message = 'An error occurred during login.';
-        if (err.status === 404) message = 'Username not found.';
-        if (err.status === 401) message = 'Incorrect password.';
-        return of({success: false, message: message});
-      })
+    return this.http.post<{jwt: string}>(AppConstants.LOGIN_API_URL, {username, password}).pipe(
+      tap(response => sessionStorage.setItem("JWT", response.jwt)),
+      map(() => ({
+        success: true,
+        message: 'Login successful'
+      })),
+      catchError(err => of({
+        success: false,
+        message: err.error?.message || "Login failed",
+      }))
     );
   }
 
-  logout() {
-    localStorage.removeItem('username');
-    localStorage.removeItem('password');
-    localStorage.setItem('isLoggedIn', 'false');
+  isAuthenticated() {
+    return sessionStorage.getItem("JWT") != null;
   }
 
-  isAuthenticated() {
-    return localStorage.getItem('isLoggedIn') === 'true';
+  logout() {
+    sessionStorage.removeItem("JWT");
   }
 
 }

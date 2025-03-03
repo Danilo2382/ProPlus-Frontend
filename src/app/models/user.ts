@@ -5,6 +5,6 @@ export interface User {
   name: string,
   surname: string,
   birthday: Date,
-  joinDate: Date,
+  createDate: Date,
   profilePicture: string | null
 }

@@ -53,22 +53,22 @@ export class ProfileComponent implements OnInit {
     this.userService.changeUserInfo(type, newValue).subscribe(
       {
         next: data => {
-          this.user = data.userDto;
           this.showSuccess(data.message);
-        }, error: err => this.showError(err.error)
+          if (type === 'Username') {
+            sessionStorage.removeItem("JWT");
+            this.user.username = newValue;
+            this.newUsername.setValue('');
+            this.changeUsername = false;
+          } else if (type === 'Email') {
+            this.user.email = newValue;
+            this.newEmail.setValue('');
+            this.changeEmail = false;
+          } else {
+            this.newPassword.setValue('');
+            this.changePassword = false;
+          }
+        }, error: err => this.showError(err.error.message)
       });
-    if (type === 'Username') {
-      localStorage.setItem('username', newValue);
-      this.newUsername.setValue('');
-      this.changeUsername = false;
-    } else if (type === 'Email') {
-      this.newEmail.setValue('');
-      this.changeEmail = false;
-    } else {
-      localStorage.setItem('password', newValue);
-      this.newPassword.setValue('');
-      this.changePassword = false;
-    }
   }
 
   protected activateState(type: 'Username' | 'Email' | 'Password') {

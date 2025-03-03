@@ -17,7 +17,7 @@ export class AppComponent {
   }
 
   protected isAuthenticated() {
-    return this.authService.isAuthenticated();
+    return this.authService.isAuthenticated;
   }
 
 }

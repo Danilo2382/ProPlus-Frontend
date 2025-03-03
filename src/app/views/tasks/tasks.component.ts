@@ -23,7 +23,7 @@ export class TasksComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadTasks();
-    this.listMembers();
+//    this.listMembers();
   }
 
   protected goBack() {
@@ -73,12 +73,12 @@ export class TasksComponent implements OnInit{
     }).then();
   }
 
-  private listMembers() {
-    return this.projectService.listMembers(this.id.toString()).subscribe({
-      next: data => this.members = data.usernames,
-      error: err => showInfo('error', err.error)
-    });
-  }
+//  private listMembers() {
+//    return this.projectService.listMembers(this.id.toString()).subscribe({
+//      next: data => this.members = data.usernames,
+//      error: err => showInfo('error', err.error)
+//    });
+//  }
 
   protected activateChangeTask() {
     this.showCreateTask = !this.showCreateTask;

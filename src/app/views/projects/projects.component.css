@@ -1,42 +1,165 @@
-.card-custom {
-  color: #0D19A3;
-  background-color: ghostwhite;
-  opacity: 0.9;
-  border-radius: 1rem;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.9);
+:root {
+  --primary-color: #080F5B;
+  --secondary-color: #E4C580;
+  --highlight-color: #DFF2D8;
+  --text-color: #0D19A3;
+  --border-hover-color: #5BCB67;
+  --border-width: 0.15rem;
+  --font-size-small: 0.8rem;
+  --font-size-medium: 0.9rem;
+  --font-size-large: 1.1rem;
+  --shadow-default: 1rem 0.6rem 1rem rgba(0, 0, 0, 0.5);
 }
 
-.details {
-  color: #080F5B;
+.function-container,
+.search-input-group,
+.sort-select-group {
+  transition: border-color 1s ease !important;
+}
+
+.function-container,
+.header-container {
+  background-color: var(--secondary-color);
+  border: solid var(--border-width) var(--primary-color);
+  opacity: 0.9;
+}
+
+.function-container {
+  transition: border-color 1s ease;
+  color: var(--primary-color);
+  font-size: var(--font-size-medium);
+  box-shadow: var(--shadow-default);
+}
+
+.function-container input,
+.function-container select {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-color);
+  outline: none;
+}
+
+.function-container:hover,
+.sort-select-group:hover,
+.sort-select-group:focus,
+.search-input-group:hover,
+.search-input-group:focus-within {
+  border-color: var(--border-hover-color);
+  opacity: 1;
+  z-index: 1;
+  box-shadow: var(--shadow-default);
+}
+
+.search-input-group,
+.sort-select-group {
+  border: solid var(--border-width) var(--primary-color);
+  border-radius: 0.4rem;
+  transition: border-color 1s ease;
+  box-shadow: var(--shadow-default);
+  opacity: 0.9;
+  overflow: hidden;
+}
+
+.sort-select-group {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-size: var(--font-size-medium);
+  outline: none;
+}
+
+.search-input-group .form-control,
+.search-input-group .input-group-text,
+.search-input-group .form-control::placeholder {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  font-size: var(--font-size-medium);
+  box-shadow: none;
+}
+
+.header-container {
+  color: var(--primary-color);
+  font-size: var(--font-size-small);
   font-weight: bold;
 }
 
-input, input:focus {
-  color: #0D19A3;
-  background-color: #F4E4C1;
-  border: solid 0.1rem #0D19A3;
+.content-container {
+  background-color: ghostwhite;
+  border-left: solid var(--border-width) var(--primary-color);
+  border-right: solid var(--border-width) var(--primary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-medium);
+  opacity: 0.8;
+}
+
+.modal-header {
+  background-color: var(--secondary-color);
+  border-bottom: solid var(--border-width) var(--primary-color);
+}
+
+.modal-header h6 {
+  color: var(--primary-color);
+  font-size: var(--font-size-large);
+}
+
+.join-input-group {
+  border: solid var(--border-width) darkgrey;
+  border-radius: 0.4rem;
+  transition: border-color, box-shadow 1s ease;
+  overflow: hidden;
+}
+
+.join-input-group .form-control,
+.join-input-group .input-group-text,
+.join-input-group .form-control::placeholder {
+  background-color: whitesmoke;
+  color: var(--text-color);
+  border: none;
+  font-size: var(--font-size-medium);
+  box-shadow: none;
+}
+
+.join-input-group:has(.ng-invalid.ng-touched) {
+  border-color: indianred;
+}
+
+.input-active {
+  border-color: #80b3ff;
+  box-shadow: 0 0 0 0.2rem rgba(72, 133, 237, 0.25);
+}
+
+.shadow-container {
+  border-bottom: solid var(--border-width) var(--primary-color);
+  box-shadow: var(--shadow-default);
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+mark {
+  background-color: var(--highlight-color);
   border-radius: 0.5rem;
+  color: var(--text-color);
 }
 
-.change-button {
-  color: white;
-  background-color: #E4C580;
+.img-custom,
+.img-custom2 {
+  border: solid 0.1rem var(--primary-color);
+  border-radius: 4rem;
 }
 
-.change-button:hover {
-  color: #E4C580;
-  background-color: white;
-  border-color: #E4C580;
+.img-custom {
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
-.ng-invalid.ng-touched {
-  border-color: #CF352E;
+.img-custom2 {
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
-.alert-color {
-  color: #CF352E;
-}
-
-.ng-valid.ng-touched {
-  border-color: #0D19A3;
+.error-msg {
+  font-size: var(--font-size-small);
+  color: red;
 }

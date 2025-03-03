@@ -11,7 +11,7 @@ export class MembersComponent implements OnInit {
 
   @Input() id!: number;
   @Output() directionEvent = new EventEmitter<string>();
-  protected usernamesWithRoles!: { usernames: Array<string>, roles: Array<number> };
+  usernamesWithRoles!: { projectMember: { id: number; role: number }; username: string }[];
 
   constructor(private projectService: ProjectService) {}
 
@@ -33,9 +33,9 @@ export class MembersComponent implements OnInit {
     return 'Member';
   }
 
-  protected canChange() {
-    return localStorage.getItem('username') === this.usernamesWithRoles?.usernames[0];
-  }
+//  protected canChange() {
+//    return localStorage.getItem('username') === this.usernamesWithRoles?.usernames[0];
+//  }
 
   protected changeRole(username: string, role: number) {
     this.projectService.changeRole(<number>this.id, username, role).subscribe({
@@ -53,14 +53,8 @@ export class MembersComponent implements OnInit {
     });
   }
 
-  private sortByRole(data: { usernames: Array<string>, roles: Array<number> }): { usernames: Array<string>, roles: Array<number> } {
-    const sortedData = data.usernames.map((username, index) => ({
-      username: username,
-      role: data.roles[index]
-    })).sort((a, b) => b.role - a.role);
-    return {
-      usernames: sortedData.map(item => item.username),
-      roles: sortedData.map(item => item.role)
-    };
+  private sortByRole(members: { projectMember: { id: number; role: number }; username: string }[]):
+    { projectMember: { id: number; role: number }; username: string }[] {
+    return members.sort((a, b) => b.projectMember.role - a.projectMember.role);
   }
 }

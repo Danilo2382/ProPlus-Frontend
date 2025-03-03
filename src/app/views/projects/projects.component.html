@@ -1,90 +1,112 @@
-<div class="container mt-5 d-flex justify-content-center">
-  <div class="col-11 col-md-9">
-    <div class="card card-custom">
-      <div class="card-body">
-        <div class="row justify-content-center justify-content-md-start ms-md-2">
-          <button (click)="changeState('createProject')" class="col-auto me-1 me-md-2 btn btn-sm change-button" [disabled]="showJoinProject">Create project</button>
-          <button (click)="changeState('showJoinProject')" class="col-auto ms-1 me-md-4 btn btn-sm change-button" [disabled]="showCreateProject">Join project</button>
+<div class="container d-flex justify-content-center mt-5">
+  <div class="col-lg-11 col-sm-12 col-11">
+    <div class="row d-flex align-items-center mb-3">
+      <div class="col-auto ps-0">
+        <select class="form-select sort-select-group form-select-sm rounded-3"
+                  (change)="sortProjects($event)">
+          <option *ngFor="let option of sortOptions" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row d-flex align-items-center mb-3">
+      <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-9 ps-0">
+        <div class="input-group search-input-group input-group-sm rounded-3">
+          <input class="form-control ps-2" type="text" placeholder="Search projects" [(ngModel)]="searchQuery"
+                 (input)="searchProjects()" (focus)="isSearchActive = true" (blur)="isSearchActive = false">
+          <span class="input-group-text input-icon-modal px-2">
+            <i class="bi bi-search"></i>
+          </span>
         </div>
-        <form *ngIf="showCreateProject" [formGroup]="createForm" class="row d-block mt-3 ms-md-1 text-center text-md-start">
-          <div>
-            <h6 class="form-label fw-bold small">Name</h6>
-            <input class="form-control-sm" type="text" formControlName="name" maxlength="45">
-            <div *ngIf="createForm.get('name')?.invalid && createForm.get('name')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="createForm.get('name')?.errors?.['required']" class="small">Name can't be empty.</h6>
-            </div>
-          </div>
-          <div class="mt-2">
-            <h6 class="form-label fw-bold small">Description</h6>
-            <input class="form-control-sm" type="text" formControlName="description" maxlength="200">
-            <div *ngIf="createForm.get('description')?.invalid && createForm.get('description')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="createForm.get('description')?.errors?.['required']" class="small">Description can't be empty.</h6>
-            </div>
-          </div>
-          <div class="mt-2">
-            <h6 class="form-label fw-bold small">Password</h6>
-            <input class="form-control-sm" type="password" formControlName="password" maxlength="200">
-            <div *ngIf="createForm.get('password')?.invalid && createForm.get('password')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="createForm.get('password')?.errors?.['required']" class="small">Password can't be empty.</h6>
-            </div>
-          </div>
-          <div class="mt-2">
-            <h6 class="form-label fw-bold small">Start date:</h6>
-            <input class="form-control-sm" type="date" formControlName="startDate">
-            <div *ngIf="createForm.get('startDate')?.invalid && createForm.get('startDate')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="createForm.get('startDate')?.errors?.['required']" class="small">Start date can't be empty.</h6>
-            </div>
-          </div>
-          <div class="mt-2">
-            <h6 class="form-label fw-bold small">End date:</h6>
-            <input class="form-control-sm" type="date" formControlName="endDate">
-            <div *ngIf="createForm.get('endDate')?.invalid && createForm.get('endDate')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="createForm.get('endDate')?.errors?.['required']" class="small">End date can't be empty.</h6>
-            </div>
-          </div>
-            <div class="mt-3">
-            <button (click)="createProject()" class="btn btn-sm btn-success" [disabled]="createForm.invalid">Create</button>
-          </div>
-        </form>
-        <form *ngIf="showJoinProject" [formGroup]="joinForm" class="row mt-3 ms-md-1 text-center text-md-start">
-          <div class="col-12 mt-2">
-            <h6 class="form-label fw-bold small">Code</h6>
-            <input class="form-control-sm" type="text" formControlName="code">
-            <div *ngIf="joinForm.get('code')?.invalid && joinForm.get('code')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="joinForm.get('code')?.errors?.['required']">Code can't be empty.</h6>
-            </div>
-          </div>
-          <div class="col-12 mt-2">
-            <h6 class="form-label fw-bold small">Password</h6>
-            <input class="form-control-sm" type="password" formControlName="password">
-            <div *ngIf="joinForm.get('password')?.invalid && joinForm.get('password')?.touched" class="mt-1 alert-color">
-              <h6 *ngIf="joinForm.get('password')?.errors?.['required']">Password can't be empty.</h6>
-            </div>
-          </div>
-          <div class="col-12 mt-3">
-            <button (click)="joinProject()" class="btn btn-sm btn-success" [disabled]="joinForm.invalid">Join</button>
-          </div>
-        </form>
-        <div *ngIf="!showJoinProject && !showCreateProject">
-          <div class="row mt-3 mx-2">
-            <h6 class="col-4 col-md-6 text-center details">Name</h6>
-            <h6 class="col-4 col-md-3 text-center details">Role</h6>
-            <h6 class="col-4 col-md-3 text-center details">Status</h6>
-            <hr>
-          </div>
-          <div *ngFor="let projectWithRole of sortedProjectsAndRoles">
-            <div class="row mx-2">
-              <h6 class="col-4 col-md-6 text-center p-1 small text-break text-wrap">
-                <a [ngStyle]="{'color': getColorByStatus(projectWithRole.project.status)}"
-                   [routerLink]="['/project', projectWithRole.project.id]" class="text-decoration-none">
-                  {{projectWithRole.project.name}}</a>
-              </h6>
-              <h6 class="col-4 col-md-3 text-center p-1 small">{{roleToString(projectWithRole.role)}}</h6>
-              <h6 class="col-4 col-md-3 text-center p-1 small">{{statusToString(projectWithRole.project.status)}}</h6>
-              <hr>
-            </div>
-          </div>
+      </div>
+      <div class="col-auto ms-auto pe-0">
+        <i class="bi bi-plus-lg function-container rounded-3 me-2 p-1 pointer"></i>
+        <i class="bi bi-link function-container rounded-3 p-1 pointer"
+           data-bs-toggle="modal" data-bs-target="#joinProjectModal"></i>
+      </div>
+    </div>
+    <div class="row header-container rounded-top-3 pt-3 pb-1">
+      <div *ngFor="let header of headers" [ngClass]="header.class">
+        <i [class]="header.icon + ' pe-2'"></i>{{header.label}}
+      </div>
+    </div>
+    <ng-container *ngIf="filteredProjectsRows.length != 0 else noProjects">
+      <div *ngFor="let projectRow of filteredProjectsRows, let first = first, let last = last;"
+           class="row content-container pt-3 pb-2"
+           [ngClass]="{'rounded-bottom-3 shadow-container': last}">
+        <div class="col-md-4 col-sm-5 col-8 d-flex align-items-center" [routerLink]="['/project', projectRow.id]">
+          <span class="text-truncate" [innerHTML]="projectRow.name"></span>
+          <i class="d-md-none ms-2" [innerHTML]="statusToIcon(projectRow.status)"></i>
         </div>
+        <div class="col-md-3 col-4 d-sm-flex d-none align-items-center justify-content-start">
+          <img class="img-custom me-3" [ngSrc]="projectRow?.adminProfilePicture || defaultProfilePicture"
+               [height]="1" [width]="1" alt="Admin profile picture" priority>
+          <span class="text-truncate">{{projectRow.adminUsername}}</span>
+        </div>
+        <div class="col-md-2 col-sm-3 col-4 d-flex align-items-center justify-content-end justify-content-md-start">
+          <span class="text-truncate">{{roleToString(projectRow.userRole)}}</span>
+        </div>
+        <div class="col-3 d-md-flex d-none align-items-center justify-content-end" [innerHTML]="statusToIcon(projectRow.status)"></div>
+        <div class="col-12 d-block d-sm-none pb-3">
+          <span class="d-flex align-items-center" style="font-size: 0.7rem">
+            <img class="img-custom2 me-2" [ngSrc]="projectRow?.adminProfilePicture || defaultProfilePicture"
+                 [height]="1" [width]="1" alt="Admin profile picture" priority>{{projectRow.adminUsername}}
+          </span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noProjects>
+      <div class="row content-container shadow-container rounded-bottom-3 pt-3 pb-2">
+        <h5 *ngIf="searchQuery.trim().length == 0 else noProjectsFound" class="text-center">You aren't part of any
+          project</h5>
+        <ng-template #noProjectsFound>
+          <h5 class="text-center text-truncate">Can't find projects matching "{{searchQuery.trim()}}"</h5>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="modal fade" id="joinProjectModal" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border: solid var(--border-width) var(--primary-color);">
+      <div class="modal-header">
+        <h6 class="modal-title" id="joinProjectModalLabel">Join Project</h6>
+        <button class="btn-close" type="button" data-bs-dismiss="modal" (click)="joinProjectForm.reset()">
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #joinProjectForm=ngForm (submit)="joinProject()">
+          <div class="mb-3">
+            <div class="input-group join-input-group" [ngClass]="{'input-active': isCodeInputActive}">
+              <input class="form-control" type="text" placeholder="Code" name="projectCode"
+                     [(ngModel)]="projectCode"
+                     (focus)="isCodeInputActive = true" (blur)="isCodeInputActive = false"
+                     #code="ngModel" required>
+              <span class="input-group-text input-icon-modal">
+                <i class="bi bi-code"></i>
+              </span>
+            </div>
+            <div *ngIf="code.invalid && code.touched">
+              <p *ngIf="code.errors?.['required']" class="error-msg ms-2 mt-1">Code is required</p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="input-group join-input-group" [ngClass]="{'input-active': isPasswordInputActive}">
+              <input class="form-control" type="password" placeholder="Password" name="projectPassword"
+                     [(ngModel)]="projectPassword"
+                     (focus)="isPasswordInputActive = true" (blur)="isPasswordInputActive = false"
+                     #password="ngModel" required>
+              <span class="input-group-text input-icon-modal">
+                <i class="bi bi-shield-lock-fill"></i>
+              </span>
+            </div>
+            <div *ngIf="password.invalid && password.touched">
+              <p *ngIf="password.errors?.['required']" class="error-msg ms-2 mt-1">Password is required</p>
+            </div>
+          </div>
+          <button class="btn btn-success w-100" type="submit" [disabled]="code.invalid || password.invalid">
+            Join
+          </button>
+        </form>
       </div>
     </div>
   </div>

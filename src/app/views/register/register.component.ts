@@ -21,7 +21,7 @@ export class RegisterComponent {
       password: registerForm.value.password,
       name: registerForm.value.name,
       surname: registerForm.value.surname,
-      birthday: new Date(registerForm.value.birthday),
+      birthday: registerForm.value.birthday,
       profilePicture: registerForm.value.profilePicture.length > 0 ? registerForm.value.profilePicture : null
     } as User
     this.authService.register(user).subscribe(
